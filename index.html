@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="PT-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,19 @@
   <link rel="stylesheet" href="./src/styles/style.css">
   <title>Meu primeiro joguinho :D</title>
 </head>
-<body>
-  <canvas class='battlefield' width='600px' height="600px">
 
-  </canvas>
-  
+<body>
+  <div class='container'>
+    <div class='life-points-wrapper'>
+      <span class='scoreboard'> 0 </span>
+      <div class='life-bar'>
+        <div class='bar'></div>
+      </div>
+    </div>
+    <canvas class='battlefield' width='600px' height="600px">
+    </canvas>
+  </div>
   <script src='./app.js' type="module"></script>
 </body>
+
 </html>
