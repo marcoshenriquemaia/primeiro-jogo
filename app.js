@@ -1,5 +1,5 @@
 const $canvas = document.querySelector("canvas");
-const $container = document.querySelector('.container');
+const $container = document.querySelector(".container");
 const $scoreboard = document.querySelector(".scoreboard");
 const ctx = $canvas.getContext("2d");
 const $lifeBar = document.querySelector(".bar");
@@ -17,7 +17,7 @@ let wallCollideLeft,
 let lifeTime = 100;
 
 const gameConfig = {
-  speedPlayer: 10, 
+  speedPlayer: 10,
   diminisher: 1.1
 };
 
@@ -78,6 +78,7 @@ const move = () => {
 };
 
 const update = () => {
+  if (lifeTime - (gameConfig.diminisher * parseInt($scoreboard.textContent)) <= 0) return;
   requestAnimationFrame(update, $canvas);
   move();
   render();
@@ -142,9 +143,12 @@ const wallCollision = () => {
     : (wallCollideBottom = false);
 };
 
+const numberRecude = gameConfig.diminisher * parseInt($scoreboard.textContent);
+
 const reduceLife = () => {
   lifeTime--;
   $lifeBar.style.width = `${lifeTime - (gameConfig.diminisher * parseInt($scoreboard.textContent))}%`;
+  console.log(numberRecude);
 };
 
 const addLife = () => {
@@ -155,23 +159,36 @@ const addLife = () => {
   }
 };
 
-const lose = () =>{
-  const box = document.createElement('div');
-  box.classList.add('box-lose');
+const lose = () => {
+  const box = document.createElement("div");
+  box.classList.add("box-lose");
 
-  const textLose = document.createElement('span');
-  textLose.classList.add('text-lose');
-  textLose.textContent = 'VOCÊ PERDEU HAHAHAHAHAHA'
+  const textLose = document.createElement("span");
+  textLose.classList.add("text-lose");
+  textLose.textContent = "VOCÊ PERDEU HAHAHAHAHAHA";
 
-  const buttonLose = document.createElement('button');
-  buttonLose.classList.add('button-lose');
-  buttonLose.textContent = 'Recomeçar';
+  const buttonLose = document.createElement("button");
+  buttonLose.classList.add("button-lose");
+  buttonLose.textContent = "Recomeçar";
 
   $container.appendChild(box);
+  q;
   box.appendChild(textLose);
   box.appendChild(buttonLose);
+};
 
-}
+const reset = () => {
+  moveLeft, moveRight, moveDown, (moveUp = false);
+  wallCollideLeft,
+    wallCollideRight,
+    wallCollideTop,
+    (wallCollideBottom = false);
+  playerBlock.position.x = 10;
+  playerBlock.position.y = 10;
+  (botBlock.position.x = $canvas.width / 2),
+    (botBlock.position.y = $canvas.height / 2);
+  lifeTime = 100;
+};
 
 update();
 
