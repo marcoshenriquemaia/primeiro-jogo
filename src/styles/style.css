@@ -38,3 +38,32 @@
   width: 100%;
   height: 1em;
 }
+
+.box-lose{
+  position: absolute;
+  width: 60%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 40%;
+  left: 20%;
+}
+
+.text-lose{
+  font-size: 2em;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: red;
+}
+
+.button-lose{
+  border: 1px solid red;
+  background-color: #fff;
+  width: 50%;
+  height: 40%;
+  font-size: 2em;
+  box-sizing: border-box;
+  color: red;
+}

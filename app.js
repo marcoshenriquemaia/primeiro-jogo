@@ -78,7 +78,13 @@ const move = () => {
 };
 
 const update = () => {
-  if (lifeTime - (gameConfig.diminisher * parseInt($scoreboard.textContent)) <= 0) return;
+  if (
+    lifeTime - gameConfig.diminisher * parseInt($scoreboard.textContent) <=
+    0
+  ) {
+    lose.build();
+    return;
+  }
   requestAnimationFrame(update, $canvas);
   move();
   render();
@@ -143,12 +149,10 @@ const wallCollision = () => {
     : (wallCollideBottom = false);
 };
 
-const numberRecude = gameConfig.diminisher * parseInt($scoreboard.textContent);
-
 const reduceLife = () => {
   lifeTime--;
-  $lifeBar.style.width = `${lifeTime - (gameConfig.diminisher * parseInt($scoreboard.textContent))}%`;
-  console.log(numberRecude);
+  $lifeBar.style.width = `${lifeTime -
+    gameConfig.diminisher * parseInt($scoreboard.textContent)}%`;
 };
 
 const addLife = () => {
@@ -159,35 +163,46 @@ const addLife = () => {
   }
 };
 
-const lose = () => {
-  const box = document.createElement("div");
-  box.classList.add("box-lose");
+const lose = {
+  build: () => {
+    const box = document.createElement("div");
+    box.classList.add("box-lose");
 
-  const textLose = document.createElement("span");
-  textLose.classList.add("text-lose");
-  textLose.textContent = "VOCÊ PERDEU HAHAHAHAHAHA";
+    const textLose = document.createElement("span");
+    textLose.classList.add("text-lose");
+    textLose.textContent = "TOMÔ NA JABIRONCA";
 
-  const buttonLose = document.createElement("button");
-  buttonLose.classList.add("button-lose");
-  buttonLose.textContent = "Recomeçar";
+    const buttonLose = document.createElement("button");
+    buttonLose.classList.add("button-lose");
+    buttonLose.textContent = "Recomeçar";
 
-  $container.appendChild(box);
-  q;
-  box.appendChild(textLose);
-  box.appendChild(buttonLose);
+    $container.appendChild(box);
+    box.appendChild(textLose);
+    box.appendChild(buttonLose);
+
+    buttonLose.addEventListener("click", () => {
+      reset();
+      update();
+      lose.remove();
+    });
+  },
+  remove: () => {
+    const box = document.querySelector(".box-lose");
+    box.remove();
+  }
 };
 
 const reset = () => {
-  moveLeft, moveRight, moveDown, (moveUp = false);
+  moveLeft, moveRight, moveDown, moveUp = false;
   wallCollideLeft,
     wallCollideRight,
-    wallCollideTop,
-    (wallCollideBottom = false);
+    wallCollideTop, wallCollideBottom = false;
   playerBlock.position.x = 10;
   playerBlock.position.y = 10;
   (botBlock.position.x = $canvas.width / 2),
     (botBlock.position.y = $canvas.height / 2);
   lifeTime = 100;
+  $scoreboard.textContent = '0';
 };
 
 update();
