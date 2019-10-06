@@ -15,6 +15,7 @@ let wallCollideLeft,
   wallCollideBottom = false;
 
 let lifeTime = 100;
+let atualBuff;
 
 const gameConfig = {
   speedPlayer: 10,
@@ -42,10 +43,22 @@ const botBlock = {
     width: 20,
     height: 20
   },
+  buff: {
+    blackbuff: 1,
+    position: {
+      x: undefined,
+      y: undefined
+    },
+    size: {
+      width: undefined,
+      height: undefined
+    },
+    color: ""
+  },
   color: "green"
 };
 
-const render = () => {
+const render = buffBox => {
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
   Block.render({
     position: botBlock.position,
@@ -58,6 +71,12 @@ const render = () => {
     width: playerBlock.size.width,
     height: playerBlock.size.height,
     color: playerBlock.color
+  });
+  Block.render({
+    position: botBlock.buff.position,
+    width: botBlock.buff.size.width,
+    height: botBlock.buff.size.height,
+    color: botBlock.buff.color
   });
 };
 
@@ -78,9 +97,7 @@ const move = () => {
 };
 
 const update = () => {
-  if (
-    lifeTime - gameConfig.diminisher * parseInt($scoreboard.textContent) <=
-    0
+  if (lifeTime - (gameConfig.diminisher * parseInt($scoreboard.textContent)) <= 0
   ) {
     lose.build();
     return;
@@ -89,38 +106,32 @@ const update = () => {
   move();
   render();
   collision();
-  reduceLife();
+  // reduceLife();
+  buffCollision();
 };
 
 const Block = {
-  render: ({ position, width, height, color }) => {
+  render: ({ position, width, height, color, positiony, positionx }) => {
     ctx.fillStyle = color;
-    ctx.fillRect(position.x, position.y, width, height);
+    position
+      ? ctx.fillRect(position.x, position.y, width, height)
+      : ctx.fillRect(positionx, positiony, width, height);
   }
 };
 
 const collision = () => {
   if (!(playerBlock.position.x + playerBlock.size.width > botBlock.position.x))
     return;
-  if (
-    !(
-      playerBlock.position.x - playerBlock.size.width + 20 <
-      botBlock.position.x
-    )
-  )
+  if (!(playerBlock.position.x - botBlock.size.width < botBlock.position.x))
     return;
   if (!(playerBlock.position.y + playerBlock.size.height > botBlock.position.y))
     return;
-  if (
-    !(
-      playerBlock.position.y - playerBlock.size.height + 20 <
-      botBlock.position.y
-    )
-  )
+  if (!(playerBlock.position.y - botBlock.size.width < botBlock.position.y))
     return;
   positionBot();
   addPunctuation();
   addLife();
+  buff();
 };
 
 const positionBot = () => {
@@ -135,22 +146,22 @@ const addPunctuation = () => {
 };
 
 const wallCollision = () => {
-  playerBlock.position.x == 0
+  playerBlock.position.x <= 0
     ? (wallCollideLeft = true)
     : (wallCollideLeft = false);
-  playerBlock.position.x == 550
+  playerBlock.position.x >= 600 - playerBlock.size.width
     ? (wallCollideRight = true)
     : (wallCollideRight = false);
-  playerBlock.position.y == 0
+  playerBlock.position.y <= 0
     ? (wallCollideTop = true)
     : (wallCollideTop = false);
-  playerBlock.position.y == 550
+  playerBlock.position.y >= 600 - playerBlock.size.height
     ? (wallCollideBottom = true)
     : (wallCollideBottom = false);
 };
 
 const reduceLife = () => {
-  lifeTime--;
+  lifeTime = lifeTime - botBlock.buff.blackbuff;
   $lifeBar.style.width = `${lifeTime -
     gameConfig.diminisher * parseInt($scoreboard.textContent)}%`;
 };
@@ -180,6 +191,8 @@ const lose = {
     box.appendChild(textLose);
     box.appendChild(buttonLose);
 
+    window.addEventListener("keypress", lose.remove);
+
     buttonLose.addEventListener("click", () => {
       reset();
       update();
@@ -187,23 +200,112 @@ const lose = {
     });
   },
   remove: () => {
+    reset();
+    update();
     const box = document.querySelector(".box-lose");
+    window.removeEventListener("keypress", lose.remove);
     box.remove();
   }
 };
 
 const reset = () => {
-  moveLeft, moveRight, moveDown, moveUp = false;
+  moveLeft, moveRight, moveDown, (moveUp = false);
   wallCollideLeft,
     wallCollideRight,
-    wallCollideTop, wallCollideBottom = false;
+    wallCollideTop,
+    (wallCollideBottom = false);
   playerBlock.position.x = 10;
   playerBlock.position.y = 10;
   (botBlock.position.x = $canvas.width / 2),
     (botBlock.position.y = $canvas.height / 2);
   lifeTime = 100;
-  $scoreboard.textContent = '0';
+  $scoreboard.textContent = "0";
+  gameConfig.speedPlayer = 10;
+  atualBuff = undefined;
+  botBlock.buff.position.x = undefined;
+  botBlock.buff.position.y = undefined;
 };
+
+
+const buff = () => {
+  const probability = Math.floor(Math.random() * 100);
+  const positionx = Math.floor(Math.random() * 600);
+  const positiony = Math.floor(Math.random() * 600);
+  if (probability < 10 && atualBuff != "black") {
+    botBlock.buff.position.x = positionx;
+    botBlock.buff.position.y = positiony;
+    botBlock.buff.color = "blue";
+    botBlock.buff.size.width = 10;
+    botBlock.buff.size.height = 10;
+    atualBuff = 'blue'
+  }
+  if (probability > 10 && probability < 20 && atualBuff != "blue") {
+    botBlock.buff.position.x = positionx;
+    botBlock.buff.position.y = positiony;
+    botBlock.buff.color = "black";
+    botBlock.buff.size.width = 10;
+    botBlock.buff.size.height = 10;
+    atualBuff = 'black'
+  }
+};
+
+const buffCollision = (buff) => {
+  if (
+    !(
+      playerBlock.position.x + playerBlock.size.width >
+      botBlock.buff.position.x
+    )
+  )
+    return;
+  if (
+    !(
+      playerBlock.position.x - botBlock.buff.size.width <
+      botBlock.buff.position.x
+    )
+  )
+    return;
+  if (
+    !(
+      playerBlock.position.y + playerBlock.size.height >
+      botBlock.buff.position.y
+    )
+  )
+    return;
+  if (
+    !(
+      playerBlock.position.y - botBlock.buff.size.height <
+      botBlock.buff.position.y
+    )
+  )
+    return;
+  attributeBuff();
+  botBlock.buff.position.x = undefined;
+  botBlock.buff.position.y = undefined;
+};
+
+const removeBuff = () => {
+  playerBlock.size.width = 50;
+  playerBlock.size.height = 50;
+  gameConfig.speedPlayer = 10;
+  botBlock.buff.blackbuff = 1;
+};
+
+const attributeBuff = () =>{
+  if (atualBuff == 'blue'){
+    playerBlock.size.width = 300;
+    playerBlock.size.height = 300;
+    lifeTime = 100;
+    atualBuff = "blue";
+    setTimeout(removeBuff, 3000);
+  } 
+  if (atualBuff == 'black'){
+    gameConfig.speedPlayer = 12;
+    botBlock.buff.blackbuff = 0.2;
+    lifeTime = 100;
+    atualBuff = "black";
+    setTimeout(removeBuff, 3000);
+  }
+}
 
 update();
 
