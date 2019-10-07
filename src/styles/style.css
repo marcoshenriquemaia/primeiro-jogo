@@ -67,3 +67,16 @@
   box-sizing: border-box;
   color: red;
 }
+
+.record{
+  color: red;
+  width: 10%;
+  height: 10%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2em;
+}

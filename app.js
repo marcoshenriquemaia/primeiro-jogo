@@ -3,6 +3,7 @@ const $container = document.querySelector(".container");
 const $scoreboard = document.querySelector(".scoreboard");
 const ctx = $canvas.getContext("2d");
 const $lifeBar = document.querySelector(".bar");
+const $record = document.querySelector('.record-number');
 
 let moveLeft,
   moveRight,
@@ -58,7 +59,7 @@ const botBlock = {
   color: "green"
 };
 
-const render = buffBox => {
+const render = () => {
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
   Block.render({
     position: botBlock.position,
@@ -78,6 +79,7 @@ const render = buffBox => {
     height: botBlock.buff.size.height,
     color: botBlock.buff.color
   });
+  $record.textContent = document.cookie;
 };
 
 const move = () => {
@@ -97,7 +99,9 @@ const move = () => {
 };
 
 const update = () => {
-  if (lifeTime - (gameConfig.diminisher * parseInt($scoreboard.textContent)) <= 0
+  if (
+    lifeTime - gameConfig.diminisher * parseInt($scoreboard.textContent) <=
+    0
   ) {
     lose.build();
     return;
@@ -176,12 +180,13 @@ const addLife = () => {
 
 const lose = {
   build: () => {
+    saveRecord();
     const box = document.createElement("div");
     box.classList.add("box-lose");
 
     const textLose = document.createElement("span");
     textLose.classList.add("text-lose");
-    textLose.textContent = "TOMÔ NA JABIRONCA";
+    textLose.textContent = `PERDEU KKKK`;
 
     const buttonLose = document.createElement("button");
     buttonLose.classList.add("button-lose");
@@ -191,11 +196,10 @@ const lose = {
     box.appendChild(textLose);
     box.appendChild(buttonLose);
 
+
     window.addEventListener("keypress", lose.remove);
 
     buttonLose.addEventListener("click", () => {
-      reset();
-      update();
       lose.remove();
     });
   },
@@ -205,6 +209,14 @@ const lose = {
     const box = document.querySelector(".box-lose");
     window.removeEventListener("keypress", lose.remove);
     box.remove();
+  }
+};
+
+const saveRecord = () => {
+  const recordValue = parseInt($scoreboard.textContent)
+  const record = document.cookie;
+  if (recordValue  > record) {
+    document.cookie = recordValue;
   }
 };
 
@@ -226,7 +238,6 @@ const reset = () => {
   botBlock.buff.position.y = undefined;
 };
 
-
 const buff = () => {
   const probability = Math.floor(Math.random() * 100);
   const positionx = Math.floor(Math.random() * 600);
@@ -237,7 +248,7 @@ const buff = () => {
     botBlock.buff.color = "blue";
     botBlock.buff.size.width = 10;
     botBlock.buff.size.height = 10;
-    atualBuff = 'blue'
+    atualBuff = "blue";
   }
   if (probability > 10 && probability < 20 && atualBuff != "blue") {
     botBlock.buff.position.x = positionx;
@@ -245,11 +256,11 @@ const buff = () => {
     botBlock.buff.color = "black";
     botBlock.buff.size.width = 10;
     botBlock.buff.size.height = 10;
-    atualBuff = 'black'
+    atualBuff = "black";
   }
 };
 
-const buffCollision = (buff) => {
+const buffCollision = () => {
   if (
     !(
       playerBlock.position.x + playerBlock.size.width >
@@ -290,22 +301,22 @@ const removeBuff = () => {
   botBlock.buff.blackbuff = 1;
 };
 
-const attributeBuff = () =>{
-  if (atualBuff == 'blue'){
+const attributeBuff = () => {
+  if (atualBuff == "blue") {
     playerBlock.size.width = 300;
     playerBlock.size.height = 300;
     lifeTime = 100;
     atualBuff = "blue";
     setTimeout(removeBuff, 3000);
-  } 
-  if (atualBuff == 'black'){
+  }
+  if (atualBuff == "black") {
     gameConfig.speedPlayer = 12;
     botBlock.buff.blackbuff = 0.2;
     lifeTime = 100;
     atualBuff = "black";
     setTimeout(removeBuff, 3000);
   }
-}
+};
 
 update();
 
