@@ -3,7 +3,10 @@ const $container = document.querySelector(".container");
 const $scoreboard = document.querySelector(".scoreboard");
 const ctx = $canvas.getContext("2d");
 const $lifeBar = document.querySelector(".bar");
-const $record = document.querySelector('.record-number');
+const $record = document.querySelector(".record-number");
+const $keyBlue = document.querySelector(".blue-buff-amount");
+const $keyBlack = document.querySelector(".black-buff-amount");
+const $keyOrange = document.querySelector(".orange-buff-amount");
 
 let moveLeft,
   moveRight,
@@ -20,7 +23,7 @@ let atualBuff;
 
 const gameConfig = {
   speedPlayer: 10,
-  diminisher: 1.1
+  diminisher: 0.3
 };
 
 const playerBlock = {
@@ -33,6 +36,13 @@ const playerBlock = {
     height: 50
   },
   color: "red"
+};
+
+const buffControl = {
+  status: false,
+  black: 0,
+  blue: 0,
+  orange: 0
 };
 
 const botBlock = {
@@ -80,6 +90,9 @@ const render = () => {
     color: botBlock.buff.color
   });
   $record.textContent = document.cookie;
+  $keyBlack.textContent = buffControl.black;
+  $keyBlue.textContent = buffControl.blue;
+  $keyOrange.textContent = buffControl.orange;
 };
 
 const move = () => {
@@ -103,6 +116,9 @@ const update = () => {
     lifeTime - gameConfig.diminisher * parseInt($scoreboard.textContent) <=
     0
   ) {
+    buffControl.black = 0;
+    buffControl.blue = 0;
+    buffControl.orange = 0;
     lose.build();
     return;
   }
@@ -110,7 +126,7 @@ const update = () => {
   move();
   render();
   collision();
-  reduceLife();
+  // reduceLife();
   buffCollision();
 };
 
@@ -196,7 +212,6 @@ const lose = {
     box.appendChild(textLose);
     box.appendChild(buttonLose);
 
-
     window.addEventListener("keypress", lose.remove);
 
     buttonLose.addEventListener("click", () => {
@@ -213,9 +228,9 @@ const lose = {
 };
 
 const saveRecord = () => {
-  const recordValue = parseInt($scoreboard.textContent)
+  const recordValue = parseInt($scoreboard.textContent);
   const record = document.cookie;
-  if (recordValue  > record) {
+  if (recordValue > record) {
     document.cookie = recordValue;
   }
 };
@@ -236,13 +251,27 @@ const reset = () => {
   atualBuff = undefined;
   botBlock.buff.position.x = undefined;
   botBlock.buff.position.y = undefined;
+  buffControl.black = 0;
+  buffControl.blue = 0;
+  buffControl.orange = 0;
+  buffControl.status = false;
+  playerBlock.size.width = 50;
+  playerBlock.size.height = 50;
+  gameConfig.speedPlayer = 10;
+  botBlock.buff.blackbuff = 1;
+  atualBuff = undefined;
+  buffControl.status = false;
+  botBlock.size.width = 20;
+  botBlock.size.height = 20;
 };
 
 const buff = () => {
   const probability = Math.floor(Math.random() * 100);
   const positionx = Math.floor(Math.random() * 600);
   const positiony = Math.floor(Math.random() * 600);
-  if (probability < 10 && atualBuff != "black") {
+  if (atualBuff) return;
+
+  if (probability < 10) {
     botBlock.buff.position.x = positionx;
     botBlock.buff.position.y = positiony;
     botBlock.buff.color = "blue";
@@ -250,13 +279,21 @@ const buff = () => {
     botBlock.buff.size.height = 10;
     atualBuff = "blue";
   }
-  if (probability > 10 && probability < 20 && atualBuff != "blue") {
+  if (probability > 10 && probability < 20) {
     botBlock.buff.position.x = positionx;
     botBlock.buff.position.y = positiony;
     botBlock.buff.color = "black";
     botBlock.buff.size.width = 10;
     botBlock.buff.size.height = 10;
     atualBuff = "black";
+  }
+  if (probability > 20 && probability < 25) {
+    botBlock.buff.position.x = positionx;
+    botBlock.buff.position.y = positiony;
+    botBlock.buff.color = "orange";
+    botBlock.buff.size.width = 10;
+    botBlock.buff.size.height = 10;
+    atualBuff = "orange";
   }
 };
 
@@ -299,23 +336,68 @@ const removeBuff = () => {
   playerBlock.size.height = 50;
   gameConfig.speedPlayer = 10;
   botBlock.buff.blackbuff = 1;
+  atualBuff = undefined;
+  buffControl.status = false;
+  botBlock.size.width = 20;
+  botBlock.size.height = 20;
 };
 
 const attributeBuff = () => {
   if (atualBuff == "blue") {
-    playerBlock.size.width = 300;
-    playerBlock.size.height = 300;
-    lifeTime = 100;
-    atualBuff = "blue";
-    setTimeout(removeBuff, 3000);
+    buffControl.blue++;
+    atualBuff = undefined;
   }
   if (atualBuff == "black") {
-    gameConfig.speedPlayer = 12;
-    botBlock.buff.blackbuff = 0.2;
-    lifeTime = 100;
-    atualBuff = "black";
-    setTimeout(removeBuff, 3000);
+    buffControl.black++;
+    atualBuff = undefined;
   }
+  if (atualBuff == "orange") {
+    buffControl.orange++;
+    atualBuff = undefined;
+  }
+};
+
+const buffAtivationQ = e => {
+  if (buffControl.status) return;
+  if (e.key != "q") return;
+  if (buffControl.blue <= 0) return;
+  playerBlock.size.width = 300;
+  playerBlock.size.height = 300;
+  lifeTime = 100;
+  atualBuff = "blue";
+  buffControl.blue--;
+  buffControl.status = true;
+  setTimeout(removeBuff, 5000);
+};
+
+const buffAtivationW = e => {
+  if (buffControl.status) return;
+  if (e.key != "w") return;
+  if (buffControl.black <= 0) return;
+  gameConfig.speedPlayer = 12;
+  botBlock.buff.blackbuff = 0.2;
+  lifeTime = 100;
+  atualBuff = "black";
+  buffControl.black--;
+  buffControl.status = true;
+  setTimeout(removeBuff, 5000);
+};
+
+const buffAtivationE = e => {
+  if (buffControl.status) return;
+  if (e.key != "e") return;
+  if (buffControl.orange <= 0) return;
+  botBlock.size.width = 100;
+  botBlock.size.height = 100;
+  atualBuff = "orange";
+  buffControl.orange--;
+  playerBlock.size.width = 300;
+  playerBlock.size.height = 300;
+  buffControl.status = true;
+  gameConfig.speedPlayer = 20;
+  botBlock.buff.blackbuff = 0.2;
+  buffControl.status = true;
+  setTimeout(removeBuff, 5000);
 };
 
 update();
@@ -349,3 +431,7 @@ window.addEventListener("keyup", ({ key }) => {
     moveDown = false;
   }
 });
+
+window.addEventListener("keydown", e => buffAtivationQ(e));
+window.addEventListener("keydown", e => buffAtivationW(e));
+window.addEventListener("keydown", e => buffAtivationE(e));
