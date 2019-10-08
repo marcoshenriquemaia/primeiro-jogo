@@ -126,7 +126,7 @@ const update = () => {
   move();
   render();
   collision();
-  // reduceLife();
+  reduceLife();
   buffCollision();
 };
 
