@@ -1,5 +1,8 @@
+body{
+  font-family: 'Kaushan Script', cursive;
+}
+
 .battlefield{
-  border: 1px solid black;
   padding: 0;
 }
 
@@ -21,7 +24,7 @@
 .bar{
   height: 40%;
   width: 100%;
-  background-color: red;
+  background-image: linear-gradient(to right, #ff6961, #ff696150);
 }
 
 .scoreboard{
@@ -29,10 +32,11 @@
   width: 50px;
   height: 5rem;
   font-size: 5em;
-  color: red;
+  color: #ff6961;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Kaushan Script', cursive;
 }
 
 .life-bar{
@@ -56,21 +60,22 @@
   font-size: 2em;
   font-weight: 800;
   margin-bottom: 1rem;
-  color: red;
+  color: #ff6961;
 }
 
 .button-lose{
-  border: 1px solid red;
+  border: 1px solid #ff6961;
   background-color: #fff;
   width: 50%;
   height: 40%;
   font-size: 2em;
   box-sizing: border-box;
-  color: red;
+  color: #ff6961;
 }
 
 .record{
-  color: red;
+  color: #ff6961;
+  font-family: 'Kaushan Script', cursive;
   width: 10%;
   height: 10%;
   position: absolute;
@@ -80,7 +85,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 2em;
-  opacity: .5;
+  opacity: .2;
 }
 
 .buff-keys{
@@ -96,6 +101,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: .2;
 }
 
 .blue-buff-amount{
@@ -113,6 +119,50 @@
   color: orange;
 }
 
-.key-img{
-  opacity: 0.4;
+.options-box{
+  width: 80%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
+
+.img-option{
+  height: 40px;
+  border: 3px solid transparent;
+}
+
+.img-option:hover{
+  border: 3px solid #ff6961;
+  border-radius: 5px;
+}
+
+.image-record-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.award-option{
+  width: 10px;
+}
+
+.record-option{
+  text-align: center;
+  color: #ff6961;
+}
+
+.credits{
+  width: 15%;
+  height: 1em;
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.credits-image{
+  height: 20px;
 }

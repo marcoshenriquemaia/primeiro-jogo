@@ -8,6 +8,42 @@ const $keyBlue = document.querySelector(".blue-buff-amount");
 const $keyBlack = document.querySelector(".black-buff-amount");
 const $keyOrange = document.querySelector(".orange-buff-amount");
 
+const imgDictionarie = {
+  player: "./src/images/39917.png",
+  bot: "./src/images/like.png",
+  blue: "./src/images/full-screen.png",
+  black: "./src/images/runer-silhouette-running-fast.png",
+  orange: "./src/images/gold.png",
+  dog: "./src/images/dog.png",
+  cat: "./src/images/cat.png",
+  monkey: "./src/images/monkey.png",
+  clown: "./src/images/clown.png",
+  pirate: "./src/images/pirate.png"
+};
+
+const options = [
+  {
+    name: "dog",
+    record: 0,
+  },
+  {
+    name: "cat",
+    record: 20,
+  },
+  {
+    name: "monkey",
+    record: 50,
+  },
+  {
+    name: "clown",
+    record: 100,
+  },
+  {
+    name: "pirate",
+    record: 150,
+  }
+];
+
 let moveLeft,
   moveRight,
   moveDown,
@@ -35,7 +71,8 @@ const playerBlock = {
     width: 50,
     height: 50
   },
-  color: "red"
+  color: "red",
+  imgSelected: "dog",
 };
 
 const buffControl = {
@@ -75,19 +112,19 @@ const render = () => {
     position: botBlock.position,
     width: botBlock.size.width,
     height: botBlock.size.height,
-    color: botBlock.color
+    type: "bot"
   });
   Block.render({
     position: playerBlock.position,
     width: playerBlock.size.width,
     height: playerBlock.size.height,
-    color: playerBlock.color
+    type: playerBlock.imgSelected,
   });
   Block.render({
     position: botBlock.buff.position,
     width: botBlock.buff.size.width,
     height: botBlock.buff.size.height,
-    color: botBlock.buff.color
+    type: botBlock.buff.color
   });
   $record.textContent = document.cookie;
   $keyBlack.textContent = buffControl.black;
@@ -131,11 +168,12 @@ const update = () => {
 };
 
 const Block = {
-  render: ({ position, width, height, color, positiony, positionx }) => {
-    ctx.fillStyle = color;
+  render: ({ position, width, height, type, positiony, positionx }) => {
+    const img = new Image();
+    img.src = imgDictionarie[type];
     position
-      ? ctx.fillRect(position.x, position.y, width, height)
-      : ctx.fillRect(positionx, positiony, width, height);
+      ? ctx.drawImage(img, position.x, position.y, width, height)
+      : ctx.drawImage(img, positionx, positiony, width, height);
   }
 };
 
@@ -155,10 +193,14 @@ const collision = () => {
 };
 
 const positionBot = () => {
-  const randomNumbery = Math.floor(Math.random() * 580);
-  const randomNumberx = Math.floor(Math.random() * 580);
-  botBlock.position.x = randomNumberx;
-  botBlock.position.y = randomNumbery;
+  const randomNumbery = Math.floor(Math.random() * 550);
+  const randomNumberx = Math.floor(Math.random() * 550);
+
+  const configuredPositiony = randomNumbery < 20 ? Math.floor(Math.random() * 600) : randomNumbery;
+  const configuredPositionx = randomNumberx < 20 ? Math.floor(Math.random() * 600) : randomNumberx;
+
+  botBlock.position.x = configuredPositionx;
+  botBlock.position.y = configuredPositiony;
 };
 
 const addPunctuation = () => {
@@ -208,9 +250,55 @@ const lose = {
     buttonLose.classList.add("button-lose");
     buttonLose.textContent = "Recomeçar";
 
+    const optionsBox = document.createElement("div");
+    optionsBox.classList.add("options-box");
+
+    options.map(option =>{
+      const imgRecordWrapper = document.createElement('div');
+      imgRecordWrapper.classList.add('image-record-wrapper');
+
+      const image = document.createElement('img');
+      image.classList.add('img-option')
+      image.src = imgDictionarie[option.name];
+
+      const record = document.createElement('span');
+      record.classList.add('record-option');
+      record.innerHTML = `<img src="./src/images/award.png" class='award-option'> ${option.record}`
+
+      image.addEventListener('click', ()=>{
+        const atualRecord = parseInt(document.cookie);
+        if(atualRecord < option.record) return;
+        playerBlock.imgSelected = option.name;
+        lose.remove();
+      })
+
+      optionsBox.appendChild(imgRecordWrapper);
+      imgRecordWrapper.appendChild(image);
+      imgRecordWrapper.appendChild(record);
+    })
+
+    
+    const credits = document.createElement('div');
+    credits.classList.add('credits');
+
+    const gitHub = document.createElement('a');
+    gitHub.href = 'https://github.com/marcoshenriquemaia';
+    gitHub.innerHTML = '<img src="./src/images/github-logo.png" class="credits-image"/>';
+    gitHub.target = '_blank'
+
+    const linkedin = document.createElement('a');
+    linkedin.href = 'https://www.linkedin.com/in/marcos-henrique-57a162188/';
+    linkedin.innerHTML = '<img src="./src/images/linkedin.png" class="credits-image"/>';
+    linkedin.target = '_blank'
+
+
     $container.appendChild(box);
+    $container.appendChild(credits)
+    box.appendChild(optionsBox);
     box.appendChild(textLose);
     box.appendChild(buttonLose);
+    credits.appendChild(gitHub);
+    credits.appendChild(linkedin);
 
     window.addEventListener("keypress", lose.remove);
 
@@ -222,8 +310,10 @@ const lose = {
     reset();
     update();
     const box = document.querySelector(".box-lose");
+    const credits = document.querySelector('.credits');
     window.removeEventListener("keypress", lose.remove);
     box.remove();
+    credits.remove();
   }
 };
 
@@ -267,32 +357,35 @@ const reset = () => {
 
 const buff = () => {
   const probability = Math.floor(Math.random() * 100);
-  const positionx = Math.floor(Math.random() * 600);
+  const positionx = Math.floor(Math.random() * 600); 
   const positiony = Math.floor(Math.random() * 600);
+
+  const configuredPositionx = positionx < 20 ? Math.floor(Math.random() * 600) : positionx;
+  const configuredPositiony = positiony < 20 ? Math.floor(Math.random() * 600) : positiony;
   if (atualBuff) return;
 
   if (probability < 10) {
-    botBlock.buff.position.x = positionx;
-    botBlock.buff.position.y = positiony;
+    botBlock.buff.position.x = configuredPositionx;
+    botBlock.buff.position.y = configuredPositiony;
     botBlock.buff.color = "blue";
-    botBlock.buff.size.width = 10;
-    botBlock.buff.size.height = 10;
+    botBlock.buff.size.width = 20;
+    botBlock.buff.size.height = 20;
     atualBuff = "blue";
   }
   if (probability > 10 && probability < 20) {
-    botBlock.buff.position.x = positionx;
-    botBlock.buff.position.y = positiony;
+    botBlock.buff.position.x = configuredPositionx;
+    botBlock.buff.position.y = configuredPositiony;
     botBlock.buff.color = "black";
-    botBlock.buff.size.width = 10;
-    botBlock.buff.size.height = 10;
+    botBlock.buff.size.width = 20;
+    botBlock.buff.size.height = 20;
     atualBuff = "black";
   }
   if (probability > 20 && probability < 25) {
-    botBlock.buff.position.x = positionx;
-    botBlock.buff.position.y = positiony;
+    botBlock.buff.position.x = configuredPositionx;
+    botBlock.buff.position.y = configuredPositiony;
     botBlock.buff.color = "orange";
-    botBlock.buff.size.width = 10;
-    botBlock.buff.size.height = 10;
+    botBlock.buff.size.width = 20;
+    botBlock.buff.size.height = 20;
     atualBuff = "orange";
   }
 };
@@ -345,15 +438,12 @@ const removeBuff = () => {
 const attributeBuff = () => {
   if (atualBuff == "blue") {
     buffControl.blue++;
-    atualBuff = undefined;
   }
   if (atualBuff == "black") {
     buffControl.black++;
-    atualBuff = undefined;
   }
   if (atualBuff == "orange") {
     buffControl.orange++;
-    atualBuff = undefined;
   }
 };
 
