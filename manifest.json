@@ -1,8 +1,9 @@
 {
-  "name": "Pega quadrado",
-  "version": "1.3",
+  "name": "Dog Catch Game",
+  "version": "1.4.5",
   "description": "Para passar o tempo",
   "browser_action": {
+    "default_icon": "icon.png",
     "default_popup": "index.html"
   },
   "manifest_version": 2

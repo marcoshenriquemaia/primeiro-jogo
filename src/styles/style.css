@@ -120,7 +120,7 @@ body{
 }
 
 .options-box{
-  width: 80%;
+  width: 100%;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -159,8 +159,8 @@ body{
   display: flex;
   justify-content: space-evenly;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 20px;
+  bottom: 20px;
 }
 
 .credits-image{

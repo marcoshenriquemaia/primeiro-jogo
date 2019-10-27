@@ -18,7 +18,8 @@ const imgDictionarie = {
   cat: "./src/images/cat.png",
   monkey: "./src/images/monkey.png",
   clown: "./src/images/clown.png",
-  pirate: "./src/images/pirate.png"
+  pirate: "./src/images/pirate.png",
+  lion: "./src/images/lion.png",
 };
 
 const options = [
@@ -41,7 +42,11 @@ const options = [
   {
     name: "pirate",
     record: 150,
-  }
+  },
+  {
+    name: "lion",
+    record: 185,
+  },
 ];
 
 let moveLeft,
@@ -196,8 +201,8 @@ const positionBot = () => {
   const randomNumbery = Math.floor(Math.random() * 550);
   const randomNumberx = Math.floor(Math.random() * 550);
 
-  const configuredPositiony = randomNumbery < 20 ? Math.floor(Math.random() * 600) : randomNumbery;
-  const configuredPositionx = randomNumberx < 20 ? Math.floor(Math.random() * 600) : randomNumberx;
+  const configuredPositiony = randomNumbery < 20 || randomNumbery > 580 ? Math.floor(Math.random() * 600) : randomNumbery;
+  const configuredPositionx = randomNumberx < 20 || randomNumberx > 580 ? Math.floor(Math.random() * 600) : randomNumberx;
 
   botBlock.position.x = configuredPositionx;
   botBlock.position.y = configuredPositiony;
@@ -360,8 +365,8 @@ const buff = () => {
   const positionx = Math.floor(Math.random() * 600); 
   const positiony = Math.floor(Math.random() * 600);
 
-  const configuredPositionx = positionx < 20 ? Math.floor(Math.random() * 600) : positionx;
-  const configuredPositiony = positiony < 20 ? Math.floor(Math.random() * 600) : positiony;
+  const configuredPositionx = positionx < 20 || positionx > 580 ? Math.floor(Math.random() * 600) : positionx;
+  const configuredPositiony = positiony < 20 || positiony > 580 ? Math.floor(Math.random() * 600) : positiony;
   if (atualBuff) return;
 
   if (probability < 10) {
