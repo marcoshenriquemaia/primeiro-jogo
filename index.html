@@ -9,7 +9,7 @@
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./src/styles/style.css">
-  <title>Meu primeiro joguinho :D</title>
+  <title>Dog Catch Game</title>
 </head>
 
 <body>
@@ -17,20 +17,6 @@
     <div class='record'>
       <img src="./src/images/award.png">
       <span class='record-number'>0</span>
-    </div>
-    <div class='buff-keys'>
-      <div class='q-wrapper key-wrapper'>
-        <span class='blue-buff-amount'>0</span>
-        <img src="./src/images/letter-q-key-on-keyboard.png"  class='key-img'/>
-      </div>
-      <div class='w-wrapper key-wrapper'>
-        <span class='black-buff-amount'>0</span>
-        <img src="./src/images/key-w-of-a-computer-keyboard.png" class='key-img'/>
-      </div>
-      <div class='e-wrapper key-wrapper'>
-        <span class='orange-buff-amount'>0</span>
-        <img src="./src/images/keyboard-key-e.png" class='key-img'/>
-      </div>
     </div>
     <div class='life-points-wrapper'>
       <span class='scoreboard'> 0 </span>
@@ -40,6 +26,26 @@
     </div>
     <canvas class='battlefield' width='600px' height="600px">
     </canvas>
+    <div class='buff-keys'>
+      <div class='q-wrapper key-wrapper'>
+        <span class='blue-buff-amount'>0</span>
+        <img src="./src/images/letter-q-key-on-keyboard.png" class='key-img' />
+      </div>
+      <div class='w-wrapper key-wrapper'>
+        <span class='black-buff-amount'>0</span>
+        <img src="./src/images/key-w-of-a-computer-keyboard.png" class='key-img' />
+      </div>
+      <div class='e-wrapper key-wrapper'>
+        <span class='orange-buff-amount'>0</span>
+        <img src="./src/images/keyboard-key-e.png" class='key-img' />
+      </div>
+      <div class='r-wrapper key-wrapper'>
+        <div class='sprint-box'>
+          <div class='sprint-bar'></div>
+        </div>
+        <img src="./src/images/letter-r-key-on-keyboard.png" class='key-img' />
+      </div>
+    </div>
   </div>
   <script src='./app.js' type="module"></script>
 </body>

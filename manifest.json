@@ -1,6 +1,6 @@
 {
   "name": "Dog Catch Game",
-  "version": "1.4.5",
+  "version": "2.3",
   "description": "Para passar o tempo",
   "browser_action": {
     "default_icon": "icon.png",

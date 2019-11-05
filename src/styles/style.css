@@ -7,6 +7,9 @@ body{
 }
 
 .container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
 }
 
@@ -15,16 +18,17 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
   flex-direction: column;
-  left: 125px;
-  opacity: .8;
+  position: absolute;
+  top: 10px;
+  opacity: .4;
 }
 
 .bar{
   height: 40%;
   width: 100%;
   background-image: linear-gradient(to right, #ff6961, #ff696150);
+  border-radius: 5px;
 }
 
 .scoreboard{
@@ -61,6 +65,7 @@ body{
   font-weight: 800;
   margin-bottom: 1rem;
   color: #ff6961;
+  text-align: center;
 }
 
 .button-lose{
@@ -85,38 +90,45 @@ body{
   justify-content: space-between;
   align-items: center;
   font-size: 2em;
-  opacity: .2;
+  opacity: .3;
 }
 
 .buff-keys{
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
   display: flex;
   justify-content: space-between;
-  width: 20%;
+  align-items: center;
+  width: 70%;
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+}
+
+.key-img{
+  opacity: .2;
 }
 
 .key-wrapper{
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: .2;
 }
 
 .blue-buff-amount{
   font-size: 2em;
   color: blue;
+  opacity: .2;
 }
 
 .black-buff-amount{
   font-size: 2em;
   color: black;
+  opacity: .2;
 }
 
 .orange-buff-amount{
   font-size: 2em;
   color: orange;
+  opacity: .2;  
 }
 
 .options-box{
@@ -160,9 +172,27 @@ body{
   justify-content: space-evenly;
   position: absolute;
   right: 20px;
-  bottom: 20px;
+  bottom: 100px;
 }
 
 .credits-image{
   height: 20px;
+}
+
+.r-wrapper{
+  width: 200px;
+}
+
+.sprint-box{
+  width: 100%;
+  height: 3em;
+  display: flex;
+  align-items: center;
+}
+
+.sprint-bar{
+  width: 100%;
+  height: 4px;
+  background-color: #61ff6e; 
+  border-radius: 5px;
 }

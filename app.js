@@ -7,6 +7,7 @@ const $record = document.querySelector(".record-number");
 const $keyBlue = document.querySelector(".blue-buff-amount");
 const $keyBlack = document.querySelector(".black-buff-amount");
 const $keyOrange = document.querySelector(".orange-buff-amount");
+const $sprintBar = document.querySelector(".sprint-bar");
 
 const imgDictionarie = {
   player: "./src/images/39917.png",
@@ -19,34 +20,56 @@ const imgDictionarie = {
   monkey: "./src/images/monkey.png",
   clown: "./src/images/clown.png",
   pirate: "./src/images/pirate.png",
-  lion: "./src/images/lion.png",
+  lion: "./src/images/lion.png"
 };
+
+const frases = {
+  0: 'a vida dá dessas as vezes',
+  1: 'não desista, pois cavalo não come pipoca',
+  2: 'a morte é a ultima esperança que vive na morte',
+  3: 'você perdeu pois não ganhou',
+  4: 'não precisa sair chorando e escutar fresno, tá?',
+  5: 'perder faz parte, bate a bunda no barril',
+  6: 'relaxa, é só um joguin, véi',
+  7: 'só não vale xingar a mãe',
+  8: 'por que o halls preto é branco?',
+  9: 'só chora',
+  10: 'NA MORAL, MAN. NÃO É POSSÍVEL',
+}
+
+const frasesPower = {
+  0: 'cê perdeu com poderzinho HAHAHAHA com poderzinho. COMO PODE?',
+  1: 'USA O PODER MIGUINHO. SEM OR',
+  2: 'marrapaz tem poderzinho pra quê?',
+  3: 'HAHAHAHA moscou. Tinha poderizinho',
+  4: 'o poder ia encher sua vida mas cê é moscão',
+}
 
 const options = [
   {
     name: "dog",
-    record: 0,
+    record: 0
   },
   {
     name: "cat",
-    record: 20,
+    record: 20
   },
   {
     name: "monkey",
-    record: 50,
+    record: 50
   },
   {
     name: "clown",
-    record: 100,
+    record: 100
   },
   {
     name: "pirate",
-    record: 150,
+    record: 150
   },
   {
     name: "lion",
-    record: 185,
-  },
+    record: 185
+  }
 ];
 
 let moveLeft,
@@ -77,11 +100,12 @@ const playerBlock = {
     height: 50
   },
   color: "red",
-  imgSelected: "dog",
+  imgSelected: "dog"
 };
 
 const buffControl = {
   status: false,
+  green: 50,
   black: 0,
   blue: 0,
   orange: 0
@@ -107,8 +131,7 @@ const botBlock = {
       height: undefined
     },
     color: ""
-  },
-  color: "green"
+  }
 };
 
 const render = () => {
@@ -123,7 +146,7 @@ const render = () => {
     position: playerBlock.position,
     width: playerBlock.size.width,
     height: playerBlock.size.height,
-    type: playerBlock.imgSelected,
+    type: playerBlock.imgSelected
   });
   Block.render({
     position: botBlock.buff.position,
@@ -158,10 +181,10 @@ const update = () => {
     lifeTime - gameConfig.diminisher * parseInt($scoreboard.textContent) <=
     0
   ) {
+    lose.build();
     buffControl.black = 0;
     buffControl.blue = 0;
     buffControl.orange = 0;
-    lose.build();
     return;
   }
   requestAnimationFrame(update, $canvas);
@@ -169,6 +192,7 @@ const update = () => {
   render();
   collision();
   reduceLife();
+  sprintLife();
   buffCollision();
 };
 
@@ -201,8 +225,14 @@ const positionBot = () => {
   const randomNumbery = Math.floor(Math.random() * 550);
   const randomNumberx = Math.floor(Math.random() * 550);
 
-  const configuredPositiony = randomNumbery < 20 || randomNumbery > 580 ? Math.floor(Math.random() * 600) : randomNumbery;
-  const configuredPositionx = randomNumberx < 20 || randomNumberx > 580 ? Math.floor(Math.random() * 600) : randomNumberx;
+  const configuredPositiony =
+    randomNumbery < 20 || randomNumbery > 580
+      ? Math.floor(Math.random() * 600)
+      : randomNumbery;
+  const configuredPositionx =
+    randomNumberx < 20 || randomNumberx > 580
+      ? Math.floor(Math.random() * 600)
+      : randomNumberx;
 
   botBlock.position.x = configuredPositionx;
   botBlock.position.y = configuredPositiony;
@@ -231,6 +261,7 @@ const reduceLife = () => {
   lifeTime = lifeTime - botBlock.buff.blackbuff;
   $lifeBar.style.width = `${lifeTime -
     gameConfig.diminisher * parseInt($scoreboard.textContent)}%`;
+  $scoreboard.style.transform = `scale(${.4 + lifeTime/100})`
 };
 
 const addLife = () => {
@@ -249,7 +280,7 @@ const lose = {
 
     const textLose = document.createElement("span");
     textLose.classList.add("text-lose");
-    textLose.textContent = `PERDEU KKKK`;
+    textLose.textContent = (buffControl.blue > 0 || buffControl.black > 0 || buffControl.orange > 0) ? frasesPower[Math.floor(Math.random() * 5)] : frases[Math.floor(Math.random() * 11)];
 
     const buttonLose = document.createElement("button");
     buttonLose.classList.add("button-lose");
@@ -258,47 +289,47 @@ const lose = {
     const optionsBox = document.createElement("div");
     optionsBox.classList.add("options-box");
 
-    options.map(option =>{
-      const imgRecordWrapper = document.createElement('div');
-      imgRecordWrapper.classList.add('image-record-wrapper');
+    options.map(option => {
+      const imgRecordWrapper = document.createElement("div");
+      imgRecordWrapper.classList.add("image-record-wrapper");
 
-      const image = document.createElement('img');
-      image.classList.add('img-option')
+      const image = document.createElement("img");
+      image.classList.add("img-option");
       image.src = imgDictionarie[option.name];
 
-      const record = document.createElement('span');
-      record.classList.add('record-option');
-      record.innerHTML = `<img src="./src/images/award.png" class='award-option'> ${option.record}`
+      const record = document.createElement("span");
+      record.classList.add("record-option");
+      record.innerHTML = `<img src="./src/images/award.png" class='award-option'> ${option.record}`;
 
-      image.addEventListener('click', ()=>{
+      image.addEventListener("click", () => {
         const atualRecord = parseInt(document.cookie);
-        if(atualRecord < option.record) return;
+        if (atualRecord < option.record) return;
         playerBlock.imgSelected = option.name;
         lose.remove();
-      })
+      });
 
       optionsBox.appendChild(imgRecordWrapper);
       imgRecordWrapper.appendChild(image);
       imgRecordWrapper.appendChild(record);
-    })
+    });
 
-    
-    const credits = document.createElement('div');
-    credits.classList.add('credits');
+    const credits = document.createElement("div");
+    credits.classList.add("credits");
 
-    const gitHub = document.createElement('a');
-    gitHub.href = 'https://github.com/marcoshenriquemaia';
-    gitHub.innerHTML = '<img src="./src/images/github-logo.png" class="credits-image"/>';
-    gitHub.target = '_blank'
+    const gitHub = document.createElement("a");
+    gitHub.href = "https://github.com/marcoshenriquemaia";
+    gitHub.innerHTML =
+      '<img src="./src/images/github-logo.png" class="credits-image"/>';
+    gitHub.target = "_blank";
 
-    const linkedin = document.createElement('a');
-    linkedin.href = 'https://www.linkedin.com/in/marcos-henrique-57a162188/';
-    linkedin.innerHTML = '<img src="./src/images/linkedin.png" class="credits-image"/>';
-    linkedin.target = '_blank'
-
+    const linkedin = document.createElement("a");
+    linkedin.href = "https://www.linkedin.com/in/marcos-henrique-57a162188/";
+    linkedin.innerHTML =
+      '<img src="./src/images/linkedin.png" class="credits-image"/>';
+    linkedin.target = "_blank";
 
     $container.appendChild(box);
-    $container.appendChild(credits)
+    $container.appendChild(credits);
     box.appendChild(optionsBox);
     box.appendChild(textLose);
     box.appendChild(buttonLose);
@@ -315,16 +346,86 @@ const lose = {
     reset();
     update();
     const box = document.querySelector(".box-lose");
-    const credits = document.querySelector('.credits');
+    const credits = document.querySelector(".credits");
     window.removeEventListener("keypress", lose.remove);
     box.remove();
     credits.remove();
+  },
+  initiation: () => {
+    saveRecord();
+    const box = document.createElement("div");
+    box.classList.add("box-lose");
+
+    const textLose = document.createElement("span");
+    textLose.classList.add("text-lose");
+    textLose.textContent = `Aperte ESPAÇO para começar. Controle pelas setinhas`;
+
+    const buttonLose = document.createElement("button");
+    buttonLose.classList.add("button-lose");
+    buttonLose.textContent = "Começar";
+
+    const optionsBox = document.createElement("div");
+    optionsBox.classList.add("options-box");
+
+    options.map(option => {
+      const imgRecordWrapper = document.createElement("div");
+      imgRecordWrapper.classList.add("image-record-wrapper");
+
+      const image = document.createElement("img");
+      image.classList.add("img-option");
+      image.src = imgDictionarie[option.name];
+
+      const record = document.createElement("span");
+      record.classList.add("record-option");
+      record.innerHTML = `<img src="./src/images/award.png" class='award-option'> ${option.record}`;
+
+      image.addEventListener("click", () => {
+        const atualRecord = parseInt(document.cookie);
+        if (atualRecord < option.record) return;
+        playerBlock.imgSelected = option.name;
+        lose.remove();
+      });
+
+      optionsBox.appendChild(imgRecordWrapper);
+      imgRecordWrapper.appendChild(image);
+      imgRecordWrapper.appendChild(record);
+    });
+
+    const credits = document.createElement("div");
+    credits.classList.add("credits");
+
+    const gitHub = document.createElement("a");
+    gitHub.href = "https://github.com/marcoshenriquemaia";
+    gitHub.innerHTML =
+      '<img src="./src/images/github-logo.png" class="credits-image"/>';
+    gitHub.target = "_blank";
+
+    const linkedin = document.createElement("a");
+    linkedin.href = "https://www.linkedin.com/in/marcos-henrique-57a162188/";
+    linkedin.innerHTML =
+      '<img src="./src/images/linkedin.png" class="credits-image"/>';
+    linkedin.target = "_blank";
+
+    $container.appendChild(box);
+    $container.appendChild(credits);
+    box.appendChild(optionsBox);
+    box.appendChild(textLose);
+    box.appendChild(buttonLose);
+    credits.appendChild(gitHub);
+    credits.appendChild(linkedin);
+
+    window.addEventListener("keypress", lose.remove);
+
+    buttonLose.addEventListener("click", () => {
+      lose.remove();
+    });
   }
 };
 
 const saveRecord = () => {
   const recordValue = parseInt($scoreboard.textContent);
   const record = document.cookie;
+  $record.textContent = record;
   if (recordValue > record) {
     document.cookie = recordValue;
   }
@@ -358,15 +459,22 @@ const reset = () => {
   buffControl.status = false;
   botBlock.size.width = 20;
   botBlock.size.height = 20;
+  buffControl.green = 50;
 };
 
 const buff = () => {
   const probability = Math.floor(Math.random() * 100);
-  const positionx = Math.floor(Math.random() * 600); 
+  const positionx = Math.floor(Math.random() * 600);
   const positiony = Math.floor(Math.random() * 600);
 
-  const configuredPositionx = positionx < 20 || positionx > 580 ? Math.floor(Math.random() * 600) : positionx;
-  const configuredPositiony = positiony < 20 || positiony > 580 ? Math.floor(Math.random() * 600) : positiony;
+  const configuredPositionx =
+    positionx < 20 || positionx > 580
+      ? Math.floor(Math.random() * 600)
+      : positionx;
+  const configuredPositiony =
+    positiony < 20 || positiony > 580
+      ? Math.floor(Math.random() * 600)
+      : positiony;
   if (atualBuff) return;
 
   if (probability < 10) {
@@ -495,7 +603,30 @@ const buffAtivationE = e => {
   setTimeout(removeBuff, 5000);
 };
 
-update();
+const buffAtivationR = e => {
+  if (e.key != "r") return;
+  if (buffControl.green <= 0) return;
+  gameConfig.speedPlayer = 25;
+};
+
+const buffDesativationR = e => {
+  if (e.key != "r") return;
+  gameConfig.speedPlayer = 10;
+};
+
+const sprintLife = () => {
+  if (gameConfig.speedPlayer == 25) {
+    buffControl.green = buffControl.green - 5;
+  } else {
+    buffControl.green <= 100 && (buffControl.green = buffControl.green + 0.2);
+  }
+  if (buffControl.green <= 0) {
+    gameConfig.speedPlayer = 10;
+  }
+  $sprintBar.style.width = `${buffControl.green}%`;
+};
+
+window.onload = lose.initiation();
 
 window.addEventListener("keydown", ({ key }) => {
   if (key == "ArrowLeft" && !moveRight) {
@@ -530,3 +661,5 @@ window.addEventListener("keyup", ({ key }) => {
 window.addEventListener("keydown", e => buffAtivationQ(e));
 window.addEventListener("keydown", e => buffAtivationW(e));
 window.addEventListener("keydown", e => buffAtivationE(e));
+window.addEventListener("keydown", e => buffAtivationR(e));
+window.addEventListener("keyup", e => buffDesativationR(e));
