@@ -1,5 +1,53 @@
 body{
   font-family: 'Kaushan Script', cursive;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rank{
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  max-height: 70vh;
+  overflow: auto;
+  padding: 10px;
+}
+
+.rank-box{
+  font-size: 18px;
+}
+
+.rank-box-0{
+  font-size: 35px;
+  color: red;
+}
+
+.rank-box-1{
+  font-size: 25px;
+}
+
+.rank-box-2{
+  font-size: 21px;
+}
+
+.nick-box{
+  margin-bottom: 20px;
+}
+
+.nick-field{
+  border: 1px solid #ff6961;
+  padding: 15px;
+  outline: none;
 }
 
 .battlefield{

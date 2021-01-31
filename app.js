@@ -8,6 +8,9 @@ const $keyBlue = document.querySelector(".blue-buff-amount");
 const $keyBlack = document.querySelector(".black-buff-amount");
 const $keyOrange = document.querySelector(".orange-buff-amount");
 const $sprintBar = document.querySelector(".sprint-bar");
+const $rank = document.querySelector('.rank')
+
+const baseUrl = 'https://primeiro-jogo.herokuapp.com'
 
 const imgDictionarie = {
   player: "./src/images/39917.png",
@@ -422,11 +425,45 @@ const lose = {
   }
 };
 
+const printRank = (data) => {
+  $rank.innerHTML = ''
+  fetch(baseUrl)
+  .then(response => response.json())
+  .then(data => (
+    data.recordList.forEach((item, index) => {
+      const box = document.createElement('li')
+      box.classList.add('rank-box')
+      box.classList.add(`rank-box-${index}`)
+      box.innerHTML = `${item.nick}: ${item.record}`
+
+      $rank.appendChild(box)
+    })
+  ))
+}
+
 const saveRecord = () => {
   const recordValue = parseInt($scoreboard.textContent);
   const record = document.cookie;
+  const $nickField = document.querySelector('.nick-field')
   $record.textContent = record;
+  console.log(recordValue)
   if (recordValue > record) {
+    const body = {
+      nick: $nickField.value,
+      record: recordValue
+    };
+
+    const config = {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { "Content-Type" : "application/json" }
+    }
+    
+    fetch(baseUrl, config).then((response) =>{
+      response.json()
+    }).then(data => {
+      printRank(data)
+    })
     document.cookie = recordValue;
   }
 };
@@ -536,6 +573,8 @@ const buffCollision = () => {
   botBlock.buff.position.x = undefined;
   botBlock.buff.position.y = undefined;
 };
+
+printRank()
 
 const removeBuff = () => {
   playerBlock.size.width = 50;

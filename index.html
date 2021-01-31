@@ -13,40 +13,47 @@
 </head>
 
 <body>
-  <div class='container'>
-    <div class='record'>
-      <img src="./src/images/award.png">
-      <span class='record-number'>0</span>
+  <main class='main'>
+    <ul class='rank'></ul>
+    <div class='nick-box'>
+      <input name='name' placeholder="Seu nick" class='nick-field'/>
     </div>
-    <div class='life-points-wrapper'>
-      <span class='scoreboard'> 0 </span>
-      <div class='life-bar'>
-        <div class='bar'></div>
+    <div class='container'>
+      <div class='record'>
+        <img src="./src/images/award.png">
+        <span class='record-number'>0</span>
       </div>
-    </div>
-    <canvas class='battlefield' width='600px' height="600px">
-    </canvas>
-    <div class='buff-keys'>
-      <div class='q-wrapper key-wrapper'>
-        <span class='blue-buff-amount'>0</span>
-        <img src="./src/images/letter-q-key-on-keyboard.png" class='key-img' />
-      </div>
-      <div class='w-wrapper key-wrapper'>
-        <span class='black-buff-amount'>0</span>
-        <img src="./src/images/key-w-of-a-computer-keyboard.png" class='key-img' />
-      </div>
-      <div class='e-wrapper key-wrapper'>
-        <span class='orange-buff-amount'>0</span>
-        <img src="./src/images/keyboard-key-e.png" class='key-img' />
-      </div>
-      <div class='r-wrapper key-wrapper'>
-        <div class='sprint-box'>
-          <div class='sprint-bar'></div>
+      <div class='life-points-wrapper'>
+        <span class='scoreboard'> 0 </span>
+        <div class='life-bar'>
+          <div class='bar'></div>
         </div>
-        <img src="./src/images/letter-r-key-on-keyboard.png" class='key-img' />
+      </div>
+      <canvas class='battlefield' width='600px' height="600px">
+      </canvas>
+      <div class='buff-keys'>
+        <div class='q-wrapper key-wrapper'>
+          <span class='blue-buff-amount'>0</span>
+          <img src="./src/images/letter-q-key-on-keyboard.png" class='key-img' />
+        </div>
+        <div class='w-wrapper key-wrapper'>
+          <span class='black-buff-amount'>0</span>
+          <img src="./src/images/key-w-of-a-computer-keyboard.png" class='key-img' />
+        </div>
+        <div class='e-wrapper key-wrapper'>
+          <span class='orange-buff-amount'>0</span>
+          <img src="./src/images/keyboard-key-e.png" class='key-img' />
+        </div>
+        <div class='r-wrapper key-wrapper'>
+          <div class='sprint-box'>
+            <div class='sprint-bar'></div>
+          </div>
+          <img src="./src/images/letter-r-key-on-keyboard.png" class='key-img' />
+        </div>
       </div>
     </div>
-  </div>
+  </main>
+  
   <script src='./app.js' type="module"></script>
 </body>
 
