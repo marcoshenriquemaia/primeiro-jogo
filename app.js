@@ -9,6 +9,7 @@ const $keyBlack = document.querySelector(".black-buff-amount");
 const $keyOrange = document.querySelector(".orange-buff-amount");
 const $sprintBar = document.querySelector(".sprint-bar");
 const $rank = document.querySelector(".rank");
+const $butonPlay = document.querySelector('.button-play')
 
 const baseUrl = "https://primeiro-jogo.herokuapp.com";
 
@@ -262,7 +263,7 @@ const addLife = () => {
 const lose = {
   build: () => {
     saveRecord();
-    printRank(data);
+    printRank();
     const box = document.createElement("div");
     box.classList.add("box-lose");
 
@@ -653,3 +654,9 @@ window.addEventListener("keydown", (e) => buffAtivationW(e));
 window.addEventListener("keydown", (e) => buffAtivationE(e));
 window.addEventListener("keydown", (e) => buffAtivationR(e));
 window.addEventListener("keyup", (e) => buffDesativationR(e));
+
+$butonPlay.addEventListener('click', () =>{
+  const $container = document.querySelector('.container')
+
+  $container.classList.add('show')
+})

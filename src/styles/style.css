@@ -14,6 +14,7 @@ body{
   flex-direction: column;
 }
 
+
 .rank{
   position: fixed;
   right: 20px;
@@ -42,6 +43,9 @@ body{
 
 .nick-box{
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .nick-field{
@@ -55,10 +59,23 @@ body{
 }
 
 .container{
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   position: relative;
+}
+
+.button-play{
+  border: 1px solid #ff6961;
+  background-color: #fff;
+  width: 50%;
+  height: 40%;
+  font-size: 2em;
+  box-sizing: border-box;
+  color: #ff6961;
+  margin-top: 20px;
+  cursor: pointer;
+  outline: none;
 }
 
 .life-points-wrapper{
@@ -243,4 +260,8 @@ body{
   height: 4px;
   background-color: #61ff6e; 
   border-radius: 5px;
+}
+
+.show{
+  display: flex;
 }
