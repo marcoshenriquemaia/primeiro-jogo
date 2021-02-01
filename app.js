@@ -657,6 +657,13 @@ window.addEventListener("keyup", (e) => buffDesativationR(e));
 
 $butonPlay.addEventListener('click', () =>{
   const $container = document.querySelector('.container')
+  const $nickBox = document.querySelector(".nick-box")
+  const $nick = document.querySelector('.nick-field')
+  const $youNick = document.querySelector('.your-nick')
+
+  $youNick.textContent = $nick.value
+
+  $nickBox.classList.add('hide')
 
   $container.classList.add('show')
 })

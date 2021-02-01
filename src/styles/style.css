@@ -26,6 +26,13 @@ body{
 
 .rank-box{
   font-size: 18px;
+  font-family: cursive;
+}
+
+.your-nick{
+  font-size: 20px;
+  font-family: cursive;
+  margin-bottom: 20px;
 }
 
 .rank-box-0{
@@ -264,4 +271,7 @@ body{
 
 .show{
   display: flex;
+}
+.hide{
+  display: none;
 }
