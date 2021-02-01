@@ -8,9 +8,9 @@ const $keyBlue = document.querySelector(".blue-buff-amount");
 const $keyBlack = document.querySelector(".black-buff-amount");
 const $keyOrange = document.querySelector(".orange-buff-amount");
 const $sprintBar = document.querySelector(".sprint-bar");
-const $rank = document.querySelector('.rank')
+const $rank = document.querySelector(".rank");
 
-const baseUrl = 'https://primeiro-jogo.herokuapp.com'
+const baseUrl = "https://primeiro-jogo.herokuapp.com";
 
 const imgDictionarie = {
   player: "./src/images/39917.png",
@@ -23,56 +23,56 @@ const imgDictionarie = {
   monkey: "./src/images/monkey.png",
   clown: "./src/images/clown.png",
   pirate: "./src/images/pirate.png",
-  lion: "./src/images/lion.png"
+  lion: "./src/images/lion.png",
 };
 
 const frases = {
-  0: 'a vida dá dessas as vezes',
-  1: 'não desista, pois cavalo não come pipoca',
-  2: 'a morte é a ultima esperança que vive na morte',
-  3: 'você perdeu pois não ganhou',
-  4: 'não precisa sair chorando e escutar fresno, tá?',
-  5: 'perder faz parte, bate a bunda no barril',
-  6: 'relaxa, é só um joguin, véi',
-  7: 'só não vale xingar a mãe',
-  8: 'por que o halls preto é branco?',
-  9: 'só chora',
-  10: 'NA MORAL, MAN. NÃO É POSSÍVEL',
-}
+  0: "a vida dá dessas as vezes",
+  1: "não desista, pois cavalo não come pipoca",
+  2: "a morte é a ultima esperança que vive na morte",
+  3: "você perdeu pois não ganhou",
+  4: "não precisa sair chorando e escutar fresno, tá?",
+  5: "perder faz parte, bate a bunda no barril",
+  6: "relaxa, é só um joguin, véi",
+  7: "só não vale xingar a mãe",
+  8: "por que o halls preto é branco?",
+  9: "só chora",
+  10: "NA MORAL, MAN. NÃO É POSSÍVEL",
+};
 
 const frasesPower = {
-  0: 'cê perdeu com poderzinho HAHAHAHA com poderzinho. COMO PODE?',
-  1: 'USA O PODER MIGUINHO. SEM OR',
-  2: 'marrapaz tem poderzinho pra quê?',
-  3: 'HAHAHAHA moscou. Tinha poderizinho',
-  4: 'o poder ia encher sua vida mas cê é moscão',
-}
+  0: "cê perdeu com poderzinho HAHAHAHA com poderzinho. COMO PODE?",
+  1: "USA O PODER MIGUINHO. SEM OR",
+  2: "marrapaz tem poderzinho pra quê?",
+  3: "HAHAHAHA moscou. Tinha poderizinho",
+  4: "o poder ia encher sua vida mas cê é moscão",
+};
 
 const options = [
   {
     name: "dog",
-    record: 0
+    record: 0,
   },
   {
     name: "cat",
-    record: 20
+    record: 20,
   },
   {
     name: "monkey",
-    record: 50
+    record: 50,
   },
   {
     name: "clown",
-    record: 100
+    record: 100,
   },
   {
     name: "pirate",
-    record: 150
+    record: 150,
   },
   {
     name: "lion",
-    record: 185
-  }
+    record: 185,
+  },
 ];
 
 let moveLeft,
@@ -90,20 +90,20 @@ let atualBuff;
 
 const gameConfig = {
   speedPlayer: 10,
-  diminisher: 0.3
+  diminisher: 0.3,
 };
 
 const playerBlock = {
   position: {
     x: 10,
-    y: 10
+    y: 10,
   },
   size: {
     width: 50,
-    height: 50
+    height: 50,
   },
   color: "red",
-  imgSelected: "dog"
+  imgSelected: "dog",
 };
 
 const buffControl = {
@@ -111,30 +111,30 @@ const buffControl = {
   green: 50,
   black: 0,
   blue: 0,
-  orange: 0
+  orange: 0,
 };
 
 const botBlock = {
   position: {
     x: $canvas.width / 2,
-    y: $canvas.height / 2
+    y: $canvas.height / 2,
   },
   size: {
     width: 20,
-    height: 20
+    height: 20,
   },
   buff: {
     blackbuff: 1,
     position: {
       x: undefined,
-      y: undefined
+      y: undefined,
     },
     size: {
       width: undefined,
-      height: undefined
+      height: undefined,
     },
-    color: ""
-  }
+    color: "",
+  },
 };
 
 const render = () => {
@@ -143,19 +143,19 @@ const render = () => {
     position: botBlock.position,
     width: botBlock.size.width,
     height: botBlock.size.height,
-    type: "bot"
+    type: "bot",
   });
   Block.render({
     position: playerBlock.position,
     width: playerBlock.size.width,
     height: playerBlock.size.height,
-    type: playerBlock.imgSelected
+    type: playerBlock.imgSelected,
   });
   Block.render({
     position: botBlock.buff.position,
     width: botBlock.buff.size.width,
     height: botBlock.buff.size.height,
-    type: botBlock.buff.color
+    type: botBlock.buff.color,
   });
   $record.textContent = document.cookie;
   $keyBlack.textContent = buffControl.black;
@@ -180,10 +180,7 @@ const move = () => {
 };
 
 const update = () => {
-  if (
-    lifeTime - gameConfig.diminisher * parseInt($scoreboard.textContent) <=
-    0
-  ) {
+  if (lifeTime - gameConfig.diminisher * parseInt($scoreboard.textContent) <= 0) {
     lose.build();
     buffControl.black = 0;
     buffControl.blue = 0;
@@ -206,18 +203,14 @@ const Block = {
     position
       ? ctx.drawImage(img, position.x, position.y, width, height)
       : ctx.drawImage(img, positionx, positiony, width, height);
-  }
+  },
 };
 
 const collision = () => {
-  if (!(playerBlock.position.x + playerBlock.size.width > botBlock.position.x))
-    return;
-  if (!(playerBlock.position.x - botBlock.size.width < botBlock.position.x))
-    return;
-  if (!(playerBlock.position.y + playerBlock.size.height > botBlock.position.y))
-    return;
-  if (!(playerBlock.position.y - botBlock.size.width < botBlock.position.y))
-    return;
+  if (!(playerBlock.position.x + playerBlock.size.width > botBlock.position.x)) return;
+  if (!(playerBlock.position.x - botBlock.size.width < botBlock.position.x)) return;
+  if (!(playerBlock.position.y + playerBlock.size.height > botBlock.position.y)) return;
+  if (!(playerBlock.position.y - botBlock.size.width < botBlock.position.y)) return;
   positionBot();
   addPunctuation();
   addLife();
@@ -229,13 +222,9 @@ const positionBot = () => {
   const randomNumberx = Math.floor(Math.random() * 550);
 
   const configuredPositiony =
-    randomNumbery < 20 || randomNumbery > 580
-      ? Math.floor(Math.random() * 600)
-      : randomNumbery;
+    randomNumbery < 20 || randomNumbery > 580 ? Math.floor(Math.random() * 600) : randomNumbery;
   const configuredPositionx =
-    randomNumberx < 20 || randomNumberx > 580
-      ? Math.floor(Math.random() * 600)
-      : randomNumberx;
+    randomNumberx < 20 || randomNumberx > 580 ? Math.floor(Math.random() * 600) : randomNumberx;
 
   botBlock.position.x = configuredPositionx;
   botBlock.position.y = configuredPositiony;
@@ -246,15 +235,11 @@ const addPunctuation = () => {
 };
 
 const wallCollision = () => {
-  playerBlock.position.x <= 0
-    ? (wallCollideLeft = true)
-    : (wallCollideLeft = false);
+  playerBlock.position.x <= 0 ? (wallCollideLeft = true) : (wallCollideLeft = false);
   playerBlock.position.x >= 600 - playerBlock.size.width
     ? (wallCollideRight = true)
     : (wallCollideRight = false);
-  playerBlock.position.y <= 0
-    ? (wallCollideTop = true)
-    : (wallCollideTop = false);
+  playerBlock.position.y <= 0 ? (wallCollideTop = true) : (wallCollideTop = false);
   playerBlock.position.y >= 600 - playerBlock.size.height
     ? (wallCollideBottom = true)
     : (wallCollideBottom = false);
@@ -262,9 +247,8 @@ const wallCollision = () => {
 
 const reduceLife = () => {
   lifeTime = lifeTime - botBlock.buff.blackbuff;
-  $lifeBar.style.width = `${lifeTime -
-    gameConfig.diminisher * parseInt($scoreboard.textContent)}%`;
-  $scoreboard.style.transform = `scale(${.4 + lifeTime/100})`
+  $lifeBar.style.width = `${lifeTime - gameConfig.diminisher * parseInt($scoreboard.textContent)}%`;
+  $scoreboard.style.transform = `scale(${0.4 + lifeTime / 100})`;
 };
 
 const addLife = () => {
@@ -278,12 +262,16 @@ const addLife = () => {
 const lose = {
   build: () => {
     saveRecord();
+    printRank(data);
     const box = document.createElement("div");
     box.classList.add("box-lose");
 
     const textLose = document.createElement("span");
     textLose.classList.add("text-lose");
-    textLose.textContent = (buffControl.blue > 0 || buffControl.black > 0 || buffControl.orange > 0) ? frasesPower[Math.floor(Math.random() * 5)] : frases[Math.floor(Math.random() * 11)];
+    textLose.textContent =
+      buffControl.blue > 0 || buffControl.black > 0 || buffControl.orange > 0
+        ? frasesPower[Math.floor(Math.random() * 5)]
+        : frases[Math.floor(Math.random() * 11)];
 
     const buttonLose = document.createElement("button");
     buttonLose.classList.add("button-lose");
@@ -292,7 +280,7 @@ const lose = {
     const optionsBox = document.createElement("div");
     optionsBox.classList.add("options-box");
 
-    options.map(option => {
+    options.map((option) => {
       const imgRecordWrapper = document.createElement("div");
       imgRecordWrapper.classList.add("image-record-wrapper");
 
@@ -321,14 +309,12 @@ const lose = {
 
     const gitHub = document.createElement("a");
     gitHub.href = "https://github.com/marcoshenriquemaia";
-    gitHub.innerHTML =
-      '<img src="./src/images/github-logo.png" class="credits-image"/>';
+    gitHub.innerHTML = '<img src="./src/images/github-logo.png" class="credits-image"/>';
     gitHub.target = "_blank";
 
     const linkedin = document.createElement("a");
     linkedin.href = "https://www.linkedin.com/in/marcos-henrique-57a162188/";
-    linkedin.innerHTML =
-      '<img src="./src/images/linkedin.png" class="credits-image"/>';
+    linkedin.innerHTML = '<img src="./src/images/linkedin.png" class="credits-image"/>';
     linkedin.target = "_blank";
 
     $container.appendChild(box);
@@ -370,7 +356,7 @@ const lose = {
     const optionsBox = document.createElement("div");
     optionsBox.classList.add("options-box");
 
-    options.map(option => {
+    options.map((option) => {
       const imgRecordWrapper = document.createElement("div");
       imgRecordWrapper.classList.add("image-record-wrapper");
 
@@ -399,14 +385,12 @@ const lose = {
 
     const gitHub = document.createElement("a");
     gitHub.href = "https://github.com/marcoshenriquemaia";
-    gitHub.innerHTML =
-      '<img src="./src/images/github-logo.png" class="credits-image"/>';
+    gitHub.innerHTML = '<img src="./src/images/github-logo.png" class="credits-image"/>';
     gitHub.target = "_blank";
 
     const linkedin = document.createElement("a");
     linkedin.href = "https://www.linkedin.com/in/marcos-henrique-57a162188/";
-    linkedin.innerHTML =
-      '<img src="./src/images/linkedin.png" class="credits-image"/>';
+    linkedin.innerHTML = '<img src="./src/images/linkedin.png" class="credits-image"/>';
     linkedin.target = "_blank";
 
     $container.appendChild(box);
@@ -422,62 +406,57 @@ const lose = {
     buttonLose.addEventListener("click", () => {
       lose.remove();
     });
-  }
+  },
 };
 
 const printRank = (data) => {
-  $rank.innerHTML = ''
+  $rank.innerHTML = "";
   fetch(baseUrl)
-  .then(response => response.json())
-  .then(data => (
-    data.recordList.forEach((item, index) => {
-      const box = document.createElement('li')
-      box.classList.add('rank-box')
-      box.classList.add(`rank-box-${index}`)
-      box.innerHTML = `${item.nick}: ${item.record}`
+    .then((response) => response.json())
+    .then((data) =>
+      data.recordList.forEach((item, index) => {
+        const box = document.createElement("li");
+        box.classList.add("rank-box");
+        box.classList.add(`rank-box-${index}`);
+        box.innerHTML = `${item.nick}: ${item.record}`;
 
-      $rank.appendChild(box)
-    })
-  ))
-}
+        $rank.appendChild(box);
+      })
+    );
+};
 
 const saveRecord = () => {
   const recordValue = parseInt($scoreboard.textContent);
   const record = document.cookie;
-  const $nickField = document.querySelector('.nick-field')
+  const $nickField = document.querySelector(".nick-field");
   $record.textContent = record;
-  console.log(recordValue)
   if (recordValue > record) {
     const body = {
       nick: $nickField.value,
-      record: recordValue
+      record: recordValue,
     };
 
     const config = {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(body),
-      headers: { "Content-Type" : "application/json" }
-    }
-    
-    fetch(baseUrl, config).then((response) =>{
-      response.json()
-    }).then(data => {
-      printRank(data)
-    })
+      headers: { "Content-Type": "application/json" },
+    };
+
+    fetch(baseUrl, config)
+      .then((response) => {
+        response.json();
+      })
+      .then((data) => {});
     document.cookie = recordValue;
   }
 };
 
 const reset = () => {
   moveLeft, moveRight, moveDown, (moveUp = false);
-  wallCollideLeft,
-    wallCollideRight,
-    wallCollideTop,
-    (wallCollideBottom = false);
+  wallCollideLeft, wallCollideRight, wallCollideTop, (wallCollideBottom = false);
   playerBlock.position.x = 10;
   playerBlock.position.y = 10;
-  (botBlock.position.x = $canvas.width / 2),
-    (botBlock.position.y = $canvas.height / 2);
+  (botBlock.position.x = $canvas.width / 2), (botBlock.position.y = $canvas.height / 2);
   lifeTime = 100;
   $scoreboard.textContent = "0";
   gameConfig.speedPlayer = 10;
@@ -505,13 +484,9 @@ const buff = () => {
   const positiony = Math.floor(Math.random() * 600);
 
   const configuredPositionx =
-    positionx < 20 || positionx > 580
-      ? Math.floor(Math.random() * 600)
-      : positionx;
+    positionx < 20 || positionx > 580 ? Math.floor(Math.random() * 600) : positionx;
   const configuredPositiony =
-    positiony < 20 || positiony > 580
-      ? Math.floor(Math.random() * 600)
-      : positiony;
+    positiony < 20 || positiony > 580 ? Math.floor(Math.random() * 600) : positiony;
   if (atualBuff) return;
 
   if (probability < 10) {
@@ -541,40 +516,16 @@ const buff = () => {
 };
 
 const buffCollision = () => {
-  if (
-    !(
-      playerBlock.position.x + playerBlock.size.width >
-      botBlock.buff.position.x
-    )
-  )
-    return;
-  if (
-    !(
-      playerBlock.position.x - botBlock.buff.size.width <
-      botBlock.buff.position.x
-    )
-  )
-    return;
-  if (
-    !(
-      playerBlock.position.y + playerBlock.size.height >
-      botBlock.buff.position.y
-    )
-  )
-    return;
-  if (
-    !(
-      playerBlock.position.y - botBlock.buff.size.height <
-      botBlock.buff.position.y
-    )
-  )
-    return;
+  if (!(playerBlock.position.x + playerBlock.size.width > botBlock.buff.position.x)) return;
+  if (!(playerBlock.position.x - botBlock.buff.size.width < botBlock.buff.position.x)) return;
+  if (!(playerBlock.position.y + playerBlock.size.height > botBlock.buff.position.y)) return;
+  if (!(playerBlock.position.y - botBlock.buff.size.height < botBlock.buff.position.y)) return;
   attributeBuff();
   botBlock.buff.position.x = undefined;
   botBlock.buff.position.y = undefined;
 };
 
-printRank()
+printRank();
 
 const removeBuff = () => {
   playerBlock.size.width = 50;
@@ -599,7 +550,7 @@ const attributeBuff = () => {
   }
 };
 
-const buffAtivationQ = e => {
+const buffAtivationQ = (e) => {
   if (buffControl.status) return;
   if (e.key != "q") return;
   if (buffControl.blue <= 0) return;
@@ -612,7 +563,7 @@ const buffAtivationQ = e => {
   setTimeout(removeBuff, 5000);
 };
 
-const buffAtivationW = e => {
+const buffAtivationW = (e) => {
   if (buffControl.status) return;
   if (e.key != "w") return;
   if (buffControl.black <= 0) return;
@@ -625,7 +576,7 @@ const buffAtivationW = e => {
   setTimeout(removeBuff, 5000);
 };
 
-const buffAtivationE = e => {
+const buffAtivationE = (e) => {
   if (buffControl.status) return;
   if (e.key != "e") return;
   if (buffControl.orange <= 0) return;
@@ -642,13 +593,13 @@ const buffAtivationE = e => {
   setTimeout(removeBuff, 5000);
 };
 
-const buffAtivationR = e => {
+const buffAtivationR = (e) => {
   if (e.key != "r") return;
   if (buffControl.green <= 0) return;
   gameConfig.speedPlayer = 25;
 };
 
-const buffDesativationR = e => {
+const buffDesativationR = (e) => {
   if (e.key != "r") return;
   gameConfig.speedPlayer = 10;
 };
@@ -697,8 +648,8 @@ window.addEventListener("keyup", ({ key }) => {
   }
 });
 
-window.addEventListener("keydown", e => buffAtivationQ(e));
-window.addEventListener("keydown", e => buffAtivationW(e));
-window.addEventListener("keydown", e => buffAtivationE(e));
-window.addEventListener("keydown", e => buffAtivationR(e));
-window.addEventListener("keyup", e => buffDesativationR(e));
+window.addEventListener("keydown", (e) => buffAtivationQ(e));
+window.addEventListener("keydown", (e) => buffAtivationW(e));
+window.addEventListener("keydown", (e) => buffAtivationE(e));
+window.addEventListener("keydown", (e) => buffAtivationR(e));
+window.addEventListener("keyup", (e) => buffDesativationR(e));
